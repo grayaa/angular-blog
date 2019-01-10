@@ -4,7 +4,7 @@
     <button class="btn btn-success" (click)="onLoveIt(post)">Love it! {{ post.loveIts }}</button>&nbsp;
     <button class="btn btn-danger" (click)="onDontLoveIt(post)">Don't love it</button>
     <button class="btn btn-danger pull-right" mwlConfirmationPopover
-            popoverMessage="Are you sure you want to delete {{ post.title }}"
+            popoverMessage="Are you sure you want to delete: '{{ post.title }}'"
             placement="left"
             (confirm)="onDeletePost(post)">
       Supprimer post
