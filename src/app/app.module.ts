@@ -9,12 +9,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { NewPostComponent } from './components/new-post/new-post.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+
 
 
 const routes: Routes = [
-  { path: 'posts/new', component: NewPostComponent },
+  { path: '', redirectTo: 'posts', pathMatch: 'full' },
+  { path: 'new', component: NewPostComponent },
   { path: 'posts', component: PostListComponent },
-  { path: '', component: PostListComponent },
   { path: '**', redirectTo: 'posts' }
 ];
 
@@ -31,7 +33,10 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger' // set defaults here
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

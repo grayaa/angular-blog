@@ -13,7 +13,7 @@ export class PostsService {
   postsSubject = new Subject<Post[]>();
 
 
-  constructor() { }
+  constructor() {}
 
   emitPosts() {
     this.postsSubject.next(this.posts);
@@ -32,20 +32,6 @@ export class PostsService {
       );
   }
 
-  getSinglePost(id: number) {
-    return new Promise(
-      (resolve, reject) => {
-        firebase.database().ref('/posts/' + id).once('value').then(
-          (data: Datasnapshot) => {
-            resolve(data.val());
-          }, (error) => {
-            reject(error);
-          }
-        );
-      }
-    );
-  }
-
   createNewPost(newPost: Post) {
     this.posts.push(newPost);
     this.savePosts();
@@ -55,12 +41,26 @@ export class PostsService {
   removePost(post: Post) {
     const postIndexToRemove = this.posts.findIndex(
       (postEl) => {
-        if(postEl === post) {
+        if (postEl === post) {
           return true;
         }
       }
     );
     this.posts.splice(postIndexToRemove, 1);
+    this.savePosts();
+    this.emitPosts();
+  }
+
+
+  saveLoveIts(post: Post, loveIts: number) {
+    const postIndexToupdate = this.posts.findIndex(
+      (postEl) => {
+        if (postEl === post) {
+          return true;
+        }
+      }
+    );
+    this.posts[postIndexToupdate].loveIts = loveIts;
     this.savePosts();
     this.emitPosts();
   }

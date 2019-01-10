@@ -11,28 +11,29 @@ import {PostsService} from '../../services/posts.service';
 })
 export class PostListItemComponent implements OnInit {
 
-  posts: Post[];
-  postsSubscription: Subscription;
-
-
   @Input() post:  Post;
-  constructor(private postsService: PostsService, private router: Router) { }
+  constructor(private postsService: PostsService, private router: Router) {
+  }
 
   ngOnInit() {
-    this.postsSubscription = this.postsService.postsSubject.subscribe(
-      (posts: Post[]) => {
-        this.posts = posts;
-      }
-    );
-    this.postsService.emitPosts();
   }
 
   onLoveIt(post: Post) {
     post.loveIts ++;
+    this.UpdateLoveIt(post, post.loveIts);
   }
 
   onDontLoveIt(post: Post) {
     post.loveIts --;
+    this.UpdateLoveIt(post, post.loveIts);
+  }
+
+  UpdateLoveIt(post: Post, loveIts: number) {
+    this.postsService.saveLoveIts(post, loveIts);
+  }
+
+  onDeletePost(post: Post) {
+      this.postsService.removePost(post);
   }
 
 }
